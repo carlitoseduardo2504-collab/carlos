@@ -376,7 +376,7 @@ def create_excel(registros):
 
 @app.route("/")
 def index():
-    return send_file("static/index.html")
+    return render_template("index.html")
 
 
 @app.route("/api/health")
