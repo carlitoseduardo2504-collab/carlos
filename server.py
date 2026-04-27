@@ -7,7 +7,7 @@ Sistema de Extracción de Facturas con Gemini AI
 - Tabla de cuentas → RUBRO incorporada
 """
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 from flask_cors import CORS
 import fitz  # PyMuPDF
 import json
