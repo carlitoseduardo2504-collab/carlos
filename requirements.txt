@@ -4,3 +4,5 @@ python-dotenv
 pypdf
 flask-cors
 pymupdf
+openpyxl
+pandas
