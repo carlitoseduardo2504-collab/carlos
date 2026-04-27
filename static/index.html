@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Control de Facturas · Gemini AI</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_azul.png') }}">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{--blue:#1d4ed8;--green:#059669;--amber:#d97706;--red:#dc2626}
@@ -67,6 +67,13 @@ tr.rev-row td{background:#fffbeb}
 </style>
 </head>
 <body class="p-3 md:p-5">
+     <div class="flex items-center mb-6 fade-in">
+        <img src="{{ url_for('static', filename='logo_blanco.png') }}" alt="Logo" class="h-10 w-auto">
+        <div class="ml-4 border-l-2 border-blue-500/30 pl-4">
+            <h1 class="text-white font-black text-xl tracking-tighter leading-none">MOBILSOL</h1>
+            <p class="text-blue-300 text-[10px] font-bold uppercase tracking-widest mt-1">Automatización Contable</p>
+        </div>
+    </div>
 
 <!-- ══════════════════════════════════════
      BARRA SUPERIOR: API KEY
