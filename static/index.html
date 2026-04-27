@@ -417,11 +417,20 @@ async function saveApiKey() {
   btn.innerHTML = '<svg class="spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Verificando…';
 
   try {
-    const r    = await fetch('/api/set-key', {
+    // Intentar primero /api/set-key (alias), luego /api/config
+    let r = await fetch('/api/set-key', {
       method:  'POST',
       headers: {'Content-Type':'application/json'},
       body:    JSON.stringify({api_key: key})
     });
+    // Fallback si el endpoint no existe
+    if (r.status === 404) {
+      r = await fetch('/api/config', {
+        method:  'POST',
+        headers: {'Content-Type':'application/json'},
+        body:    JSON.stringify({api_key: key})
+      });
+    }
     const d = await r.json();
 
     if (d.success) {
@@ -430,7 +439,7 @@ async function saveApiKey() {
       toast('API Key guardada y verificada ✓', 'ok');
     } else {
       showKeyStatus('✗ ' + (d.error || 'Error'), 'err');
-      toast('Error al guardar la key: ' + (d.error || ''), 'err');
+      toast('Error: ' + (d.error || ''), 'err');
     }
     if (d.warning) {
       showKeyStatus('⚠ ' + d.warning, 'warn');
@@ -477,7 +486,21 @@ async function checkHealth() {
   try {
     const r = await fetch('/api/health');
     const d = await r.json();
-    if (d.status === 'ok') toast(`✓ Sistema listo · ${d.model} · ${d.cuentas} rubros cargados`, 'ok');
+    if (d.status === 'ok') {
+      toast(`✓ Sistema listo · ${d.model} · ${d.cuentas} rubros`, 'ok');
+      // Si el servidor tiene una key y el localStorage no tiene, mostrarla
+      if (d.api_key && !getApiKey()) {
+        document.getElementById('apiKeyInput').value = d.api_key;
+        // NO guardamos en localStorage automáticamente; el usuario debe hacer clic en Guardar
+      } else if (getApiKey()) {
+        // Sincronizar la key del localStorage con el servidor
+        fetch('/api/set-key', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({api_key: getApiKey()})
+        }).catch(()=>{});
+      }
+    }
   } catch(e) { toast('Conectando al servidor…', 'warn'); }
 }
 

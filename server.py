@@ -37,8 +37,8 @@ CONFIG = {
     "api_key": os.environ.get("GEMINI_API_KEY", "AIzaSyBUodKbKBABuEOd69QI9gASnOwoPlHYF58"),
     # Modelos en orden de preferencia (fallback automático)
     "models": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.0-flash-lite"],
-    "max_retries": 2,      # Reintentos por modelo
-    "retry_delay": 15,     # Segundos entre reintentos por rate-limit
+    "max_retries": 3,      # Reintentos por modelo
+    "retry_delay": 20,     # Segundos entre reintentos por rate-limit
 }
 
 # ─────────────────────────────────────────────────────────
@@ -593,4 +593,5 @@ if __name__ == "__main__":
     print(f"  Cuentas  : {len(TABLA_CUENTAS)} rubros")
     print(f"  Puerto   : 3000")
     print("=" * 60)
-    app.run(host="0.0.0.0", port=3000, debug=False)
+    # threaded=True: Flask atiende múltiples requests simultáneos sin bloquearse
+    app.run(host="0.0.0.0", port=3000, debug=False, threaded=True)
