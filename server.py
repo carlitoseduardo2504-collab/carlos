@@ -34,7 +34,7 @@ CORS(app)
 # CONFIGURACIÓN GLOBAL — modificable en tiempo real
 # ─────────────────────────────────────────────────────────
 CONFIG = {
-    "api_key": os.environ.get("GEMINI_API_KEY", "AIzaSyBUodKbKBABuEOd69QI9gASnOwoPlHYF58"),
+
     # Modelos en orden de preferencia (fallback automático)
     "models": ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.0-flash-lite"],
     "max_retries": 3,      # Reintentos por modelo
